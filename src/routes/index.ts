@@ -2,6 +2,8 @@ import * as express from 'express';
 
 import * as ServiceHandler from '@handlers/service';
 
+import userRouter from './user';
+
 /**
  * Function used for registering the routes for the service.
  *
@@ -9,4 +11,5 @@ import * as ServiceHandler from '@handlers/service';
  */
 export const register = (app: express.Application): void => {
   app.get('/health-check', ServiceHandler.healthCheck);
+  app.use('/api/v1/user', userRouter);
 };

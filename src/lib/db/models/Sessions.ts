@@ -31,6 +31,7 @@ Sessions.init(
         },
         key: 'id',
       },
+      onDelete: 'CASCADE',
     },
     isActive: {
       type: DataTypes.BOOLEAN,

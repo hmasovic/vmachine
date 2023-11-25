@@ -16,7 +16,7 @@ moduleAlias.addAliases({
   '@repositories': `${__dirname}/repositories`,
 });
 
-import logger from '@logs/index';
+import { logger } from '@logs/index';
 import app, { onInit } from './app';
 
 import { PORT } from '@config/index';

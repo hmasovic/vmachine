@@ -43,6 +43,7 @@ Products.init(
         },
         key: 'id',
       },
+      onDelete: 'CASCADE',
     },
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,

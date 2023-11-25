@@ -1,7 +1,11 @@
 import { Request, Response } from 'express';
 import { ParamsDictionary, Send } from 'express-serve-static-core';
 
-export interface SecuredBaseRequest extends Request {}
+import { AuthenticatedUser } from '@services/interfaces';
+
+export interface SecuredBaseRequest extends Request {
+  locals: AuthenticatedUser;
+}
 
 // requests
 export interface BaseBodyRequest<T> extends Request {
@@ -11,6 +15,7 @@ export interface BaseBodyRequest<T> extends Request {
 export interface BaseParamsRequest<T extends ParamsDictionary> extends Request {
   params: T;
 }
+
 export interface BaseQueryParamsRequest<TParams extends ParamsDictionary, TQuery extends ParamsDictionary> extends Request {
   params: TParams;
   query: TQuery;
@@ -35,4 +40,8 @@ export interface BaseResponse<ResBody> extends Response {
 
 export interface VerificationErrorModel {
   [key: string]: string;
+}
+
+export interface MessageResponseSchema {
+  message: string;
 }

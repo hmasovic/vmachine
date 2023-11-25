@@ -13,11 +13,9 @@ const LOG_FORMAT = winston.format.combine(
 
 winston.addColors(SEVERITY_COLORS);
 
-const Logger = winston.createLogger({
+export const logger = winston.createLogger({
   level: IS_PROD ? 'warn' : 'debug',
   levels: SEVERITY_LEVELS,
   format: LOG_FORMAT,
   transports: TRANSPORTS,
 });
-
-export default Logger;

@@ -21,3 +21,6 @@ export const DB_DIALECT: string = process.env.DB_DIALECT || 'postgres';
 export const DB_MAX_CONNECTIONS: number = Number(process.env.DB_MAX_CONNECTIONS) || 100;
 export const DB_MAX_CONNECTION_WAIT_TIME_MS: number = Number(process.env.DB_MAX_CONNECTION_WAIT_TIME_MS) || 120000;
 export const DB_CONNECTION_TIMEOUT_MS: number = Number(process.env.DB_CONNECTION_TIMEOUT_MS) || 60000;
+
+// Misc
+export const TOKEN_EXPIRY_HOURS = Number(process.env.TOKEN_EXPIRE_HOURS) || 2;

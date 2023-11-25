@@ -17,6 +17,7 @@ module.exports = {
           },
           key: 'id',
         },
+        onDelete: 'CASCADE',
       },
       isActive: {
         type: DataTypes.BOOLEAN,
