@@ -1,6 +1,6 @@
 # Vending machine
 
-This repository is intended to house the backend part for the builder onboarding.
+This repository is intended to house a vending machine backend service.
 
 ### Local setup
 
@@ -44,40 +44,14 @@ This repository is intended to house the backend part for the builder onboarding
 
 ```
 NODE_ENV=development
-PORT=80
+PORT=6000
 
-DB_USERNAME=xxx
-DB_PASSWORD=xxx
-DB_HOSTS_READER=xxx
-DB_HOST_WRITER=xxx
+DB_USERNAME=postgres
+DB_PASSWORD=password
+DB_HOSTS_READER='["localhost"]'
+DB_HOST_WRITER=localhost
 DB_PORT=5432
-DB_NAME=builderonboarding
-
-SUPPLY_MAIN_SERVICE_BASE_URL=xxx
-SUPPLY_MAIN_TOKEN=xxx
-
-PLATFORM_BASE_PATH=https://platform-sandbox.a.team
-
-BUILDER_ONBOARDING_URL=http://localhost:8001/builder/
-
-CLIENT_ONBOARDING_URL=https://onboarding-dev.a.team/client/
-
-PLATFORM_API_SERVICE_BASE_URL=xxx
-PLATFORM_API_SERVICE_API_KEY=sandbox
-
-ATEAM_EMAIL_BASE_PATH=https://user-notification-service.eks.a.team
-ATEAM_EMAIL_API_KEY=xxx
-
-JWT_SECRET=sandbox
-
-RABBITMQ_CONNECTION_URL=amqp://rabbitmq:5672
-
-DEACTIVATE_SESSIONS_JOB_SCHEDULE='* * * * *'
-
-BUILDER_ONBOARDING_SERVICE_BASE_URL='http://localhost:8001'
-BUILDER_ONBOARDING_FRONTEND_BASE_URL='http://localhost:8002/builder'
-
-AUTH_JWT_SECRET=sandbox
+DB_NAME=postgres
 ```
 
 - Finally, to install all of the dependencies, run the following:
@@ -87,14 +61,6 @@ npm login # dashlane for secrets
 npm ci  # or npm install to update the dependencies as well
 ```
 
-### Rabbitmq setup
-
-- The rabbitmq instance can be set up locally via `docker`:
-
-```bash
-docker run --rm -it -p 15672:15672 -p 5672:5672 rabbitmq:3-management
-```
-
 ### Database setup
 
 - Before running the backend service, it is also required to have the local database running along with the migrations
@@ -102,7 +68,7 @@ docker run --rm -it -p 15672:15672 -p 5672:5672 rabbitmq:3-management
 - The database instance can be set up locally via `docker`:
 
 ```bash
-docker run --name builder-onboarding-db -p 5432:5432 -e POSTGRES_PASSWORD=password postgres
+docker run --name vm-db -p 5432:5432 -e POSTGRES_PASSWORD=password postgres
 ```
 
 - Before running the backend service, it is also required to run the migrations:
@@ -131,21 +97,13 @@ npx sequelize-cli migration:generate --name new-migration-name
 npm run dev
 ```
 
-- To run it via `docker`:
-
-```bash
-docker build -f .docker/build.dockerfile -t builder-onboarding-svc --build-arg NPM_TOKEN=token .
-docker run -it --init builder-onboarding-svc
-```
-
 - Running the tests can be done by with the following command:
 
 ```bash
 npm run test
 ```
 
-### Links of interest
+### Other links of interest
 
 - [Prettier extension](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 - [Jest extension](https://marketplace.visualstudio.com/items?itemName=Orta.vscode-jest)
-- [Growth team documentation](https://www.notion.so/ateams/Documentation-375ea337779c49cda5a832d3bb161b88)
