@@ -47,8 +47,8 @@ export const createUser = async (req: CreateUserRequest, res: CreateUserResponse
 /**
  * Handler function used for getting the info about the user.
  *
- * @param  {CreateUserRequest} req - Request defined in the schemes
- * @param  {CreateUserResponse} res - Response defined in the schemes
+ * @param  {GetUserRequest} req - Request defined in the schemes
+ * @param  {GetUserResponse} res - Response defined in the schemes
  */
 export const getUser = async (req: GetUserRequest, res: GetUserResponse) => {
   try {
@@ -65,8 +65,8 @@ export const getUser = async (req: GetUserRequest, res: GetUserResponse) => {
 /**
  * Handler function used for updating the info about the user.
  *
- * @param  {CreateUserRequest} req - Request defined in the schemes
- * @param  {CreateUserResponse} res - Response defined in the schemes
+ * @param  {UpdateUserRequest} req - Request defined in the schemes
+ * @param  {UpdateUserResponse} res - Response defined in the schemes
  */
 export const updateUser = async (req: UpdateUserRequest, res: UpdateUserResponse) => {
   try {
@@ -88,8 +88,8 @@ export const updateUser = async (req: UpdateUserRequest, res: UpdateUserResponse
 /**
  * Handler function used for deleting the user from the system.
  *
- * @param  {CreateUserRequest} req - Request defined in the schemes
- * @param  {CreateUserResponse} res - Response defined in the schemes
+ * @param  {DeleteUserRequest} req - Request defined in the schemes
+ * @param  {DeleteUserResponse} res - Response defined in the schemes
  */
 export const deleteUser = async (req: DeleteUserRequest, res: DeleteUserResponse) => {
   try {
