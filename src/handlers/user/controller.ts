@@ -85,6 +85,12 @@ export const updateUser = async (req: UpdateUserRequest, res: UpdateUserResponse
   }
 };
 
+/**
+ * Handler function used for deleting the user from the system.
+ *
+ * @param  {CreateUserRequest} req - Request defined in the schemes
+ * @param  {CreateUserResponse} res - Response defined in the schemes
+ */
 export const deleteUser = async (req: DeleteUserRequest, res: DeleteUserResponse) => {
   try {
     const user = req.locals.user;
