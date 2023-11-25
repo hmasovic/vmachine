@@ -1,6 +1,8 @@
 import { User } from '@lib/db/interfaces';
 import { Users } from '@lib/db/models';
 
+import { UserNotUpdated } from '@lib/exceptions';
+
 /**
  * Repository function used for creating a new user.
  *
@@ -9,6 +11,31 @@ import { Users } from '@lib/db/models';
  */
 export const createUser = async (user: User): Promise<Users> => {
   return Users.create(user, { returning: true });
+};
+
+/**
+ * Repository function used for updating an user.
+ *
+ * @param  {User} user - The user's partial data
+ * @returns Promise - Result delegated back as {@link Users}
+ */
+export const updateUser = async (user: Partial<User>): Promise<Users> => {
+  const [usersAffected, users] = await Users.update(user, { where: { id: user.id }, returning: true });
+
+  if (usersAffected === 0) {
+    throw new UserNotUpdated(`User with the id: ${user.id} was not updated!`);
+  }
+
+  return users?.[0];
+};
+
+/**
+ * Repository function used for deleting an user with the id provided.
+ *
+ * @param  {number} id - The user id
+ */
+export const deleteUser = async (id: number) => {
+  await Users.destroy({ where: { id } });
 };
 
 /**
@@ -30,23 +57,4 @@ export const getUserById = async (id: number): Promise<Users> => {
  */
 export const getUserByUsernamePassword = async (username: string, hashedPassword: string): Promise<Users> => {
   return Users.findOne({ where: { username, password: hashedPassword } });
-};
-
-/**
- * Repository function used for updating an user with the data provided.
- *
- * @param  {number} id - The user id
- * @param  {User} data - Result delegated back as {@link Users}
- */
-export const updateUser = async (id: number, data: User) => {
-  return Users.update(data, { where: { id }, returning: true });
-};
-
-/**
- * Repository function used for deleting an user with the id provided.
- *
- * @param  {number} id - The user id
- */
-export const deleteUser = async (id: number) => {
-  await Users.destroy({ where: { id } });
 };

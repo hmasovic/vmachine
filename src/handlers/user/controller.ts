@@ -3,8 +3,21 @@ import { logger } from '@logs/index';
 import { buildMessageResponse } from '@lib/helpers';
 import { SessionsService, UsersService } from '@services/index';
 
-import { CreateUserResponseDto, LoginUserResponseDto } from '@schemes/interfaces';
-import { CreateUserRequest, CreateUserResponse, LoginUserRequest, LoginUserResponse, LogoutUserFromAllSessionsRequest, LogoutUserFromAllSessionsResponse } from '@schemes/users';
+import { CreateUserResponseDto, GetUserResponseDto, LoginUserResponseDto } from '@schemes/interfaces';
+import {
+  CreateUserRequest,
+  CreateUserResponse,
+  DeleteUserRequest,
+  DeleteUserResponse,
+  GetUserRequest,
+  GetUserResponse,
+  LoginUserRequest,
+  LoginUserResponse,
+  LogoutUserFromAllSessionsRequest,
+  LogoutUserFromAllSessionsResponse,
+  UpdateUserRequest,
+  UpdateUserResponse,
+} from '@schemes/users';
 
 import { HTTP_STATUSES } from '@lib/constants';
 import { ActiveSessionExists, UserNotFound } from '@lib/exceptions';
@@ -27,6 +40,60 @@ export const createUser = async (req: CreateUserRequest, res: CreateUserResponse
     return res.status(HTTP_STATUSES.CREATED).send(result);
   } catch (error) {
     logger.error(`[handlers/user/createUser] - ${error.message}`);
+    return res.status(HTTP_STATUSES.INTERNAL_SERVER_ERROR).send(buildMessageResponse('An error occured, please contact support!'));
+  }
+};
+
+/**
+ * Handler function used for getting the info about the user.
+ *
+ * @param  {CreateUserRequest} req - Request defined in the schemes
+ * @param  {CreateUserResponse} res - Response defined in the schemes
+ */
+export const getUser = async (req: GetUserRequest, res: GetUserResponse) => {
+  try {
+    const user = req.locals.user;
+    const result: GetUserResponseDto = { id: user.id, username: user.username, role: user.role };
+
+    return res.status(HTTP_STATUSES.OK).send(result);
+  } catch (e) {
+    logger.error(`[handlers/user/getUser] - ${e.message}`);
+    return res.status(HTTP_STATUSES.INTERNAL_SERVER_ERROR).send(buildMessageResponse('An error occured, please contact support!'));
+  }
+};
+
+/**
+ * Handler function used for updating the info about the user.
+ *
+ * @param  {CreateUserRequest} req - Request defined in the schemes
+ * @param  {CreateUserResponse} res - Response defined in the schemes
+ */
+export const updateUser = async (req: UpdateUserRequest, res: UpdateUserResponse) => {
+  try {
+    const user = req.locals.user;
+    const updatedUser = await UsersService.updateUser(user.id, req.body);
+
+    const result = {
+      id: updatedUser.id,
+      username: updatedUser.username,
+    };
+
+    return res.status(HTTP_STATUSES.OK).send(result);
+  } catch (e) {
+    logger.error(`[handlers/user/updateUser] - ${e.message}`);
+    return res.status(HTTP_STATUSES.INTERNAL_SERVER_ERROR).send(buildMessageResponse('An error occured, please contact support!'));
+  }
+};
+
+export const deleteUser = async (req: DeleteUserRequest, res: DeleteUserResponse) => {
+  try {
+    const user = req.locals.user;
+
+    await UsersService.deleteUser(user.id);
+
+    return res.status(HTTP_STATUSES.OK).send();
+  } catch (e) {
+    logger.error(`[handlers/user/deleteUser] - ${e.message}`);
     return res.status(HTTP_STATUSES.INTERNAL_SERVER_ERROR).send(buildMessageResponse('An error occured, please contact support!'));
   }
 };

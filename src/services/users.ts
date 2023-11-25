@@ -30,6 +30,27 @@ export const createUser = async (userData: NewUserInfo): Promise<Users> => {
 };
 
 /**
+ * Service function used for updating an user.
+ *
+ * @param  {number} id - The user id
+ * @param  {Partial<User>} userData - User's partial data
+ * @returns Promise - Result delegated back as {@link Users}
+ */
+export const updateUser = async (id: number, userData: Partial<User>): Promise<Users> => {
+  return await UsersRepository.updateUser({ ...userData, id });
+};
+
+/**
+ * Service function used for deleting an user.
+ *
+ * @param  {number} id - The user id
+ * @returns Promise - Result delegated back as {@link Users}
+ */
+export const deleteUser = async (id: number) => {
+  return await UsersRepository.deleteUser(id);
+};
+
+/**
  * Service function used for logging in a user / creating a new session for the user.
  *
  * @param  {string} username - The username

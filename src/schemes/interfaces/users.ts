@@ -20,3 +20,18 @@ export interface LoginUserResponseDto {
   token: string;
   expirationDate: Date;
 }
+
+export interface GetUserResponseDto {
+  id: number;
+  username: string;
+  role: UserRole;
+}
+
+export interface UpdateUserRequestDto {
+  username: string;
+}
+
+export interface UpdateUserResponseDto {
+  id: number;
+  username: string;
+}
