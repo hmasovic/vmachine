@@ -1,5 +1,5 @@
 export class ActiveSessionExists extends Error {
-  constructor(message = 'A session is active already!') {
+  constructor(message = 'A session is already active!') {
     super(message);
   }
 }

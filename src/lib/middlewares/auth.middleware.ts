@@ -1,5 +1,6 @@
 import { NextFunction, Response } from 'express';
 
+import { buildMessageResponse } from '@lib/helpers';
 import { SessionsService } from '@services/index';
 
 import { SecuredBaseRequest } from '@schemes/common';
@@ -11,18 +12,18 @@ export const authMiddleware = async (req: SecuredBaseRequest, res: Response, nex
     const token: string = req.cookies?.Authorization || req.header('authorization').split('Bearer ')[1] || null;
 
     if (!token) {
-      return res.status(HTTP_STATUSES.NOT_FOUND).send('Authentication token missing!');
+      return res.status(HTTP_STATUSES.NOT_FOUND).send(buildMessageResponse('Authentication token missing!'));
     }
 
     const user = await SessionsService.getUserBySessionToken(token);
 
     if (!user) {
-      return res.status(HTTP_STATUSES.UNAUTHORIZED).json('Authentication token not valid!');
+      return res.status(HTTP_STATUSES.UNAUTHORIZED).send(buildMessageResponse('Authentication token not valid!'));
     }
 
-    req.locals = user;
+    req.locals = { user };
     return next();
   } catch (error) {
-    return res.status(HTTP_STATUSES.UNAUTHORIZED).send('Wrong authentication token');
+    return res.status(HTTP_STATUSES.UNAUTHORIZED).send(buildMessageResponse('Wrong authentication token'));
   }
 };

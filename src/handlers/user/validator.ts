@@ -9,3 +9,5 @@ export const createUser: ValidationChain[] = [
 ];
 
 export const loginUser: ValidationChain[] = [body('username', 'username is undefined or not a valid string!').isString(), body('password', 'password is undefined or not a valid string!').isString()];
+
+export const logoutUserFromAllSessions: ValidationChain[] = [];

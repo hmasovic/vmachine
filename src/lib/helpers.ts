@@ -3,12 +3,12 @@ import crypto from 'crypto';
 import { MessageResponseSchema } from '../schemes/common';
 
 /**
- * Helper function used for building the base error response.
+ * Helper function used for building the base message response.
  *
- * @param  {string} message The message to be sent to the client
- * @returns ErrorResponse - Response defined in the base schemes
+ * @param  {string} message - The message to be sent back to the client
+ * @returns MessageResponseSchema - Response defined in the base schemes
  */
-export const buildErrorResponse = (message: string): MessageResponseSchema => {
+export const buildMessageResponse = (message: string): MessageResponseSchema => {
   return { message };
 };
 

@@ -21,14 +21,14 @@ export const createSession = async (session: Session): Promise<Sessions> => {
  * @returns Promise - Result delegated back as an array of {@link Sessions}
  */
 export const getAllActiveSessions = async (userId: number): Promise<Sessions[]> => {
-  const now = moment().toDate();
+  const now = moment().utc().toDate();
 
   return Sessions.findAll({
     where: {
       userId,
       isActive: true,
       expireTimestamp: {
-        [Op.lt]: now,
+        [Op.gt]: now,
       },
     },
   });
@@ -41,14 +41,14 @@ export const getAllActiveSessions = async (userId: number): Promise<Sessions[]> 
  * @returns Promise - Result delegated back as {@link Users}
  */
 export const getUserViaActiveSession = async (token: string): Promise<Users | null> => {
-  const now = moment().toDate();
+  const now = moment().utc().toDate();
 
   const session = await Sessions.findOne({
     where: {
       token,
       isActive: true,
       expireTimestamp: {
-        [Op.lt]: now,
+        [Op.gt]: now,
       },
     },
     include: [
@@ -65,4 +65,13 @@ export const getUserViaActiveSession = async (token: string): Promise<Users | nu
   }
 
   return session.user;
+};
+
+/**
+ * Repository function used for marking all of the users sessions as inactive.
+ *
+ * @param  {string} userId - The user id
+ */
+export const markAllUserSessionsAsInactive = async (userId: number) => {
+  await Sessions.update({ isActive: false }, { where: { userId, isActive: true } });
 };

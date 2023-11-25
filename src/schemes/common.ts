@@ -4,7 +4,7 @@ import { ParamsDictionary, Send } from 'express-serve-static-core';
 import { AuthenticatedUser } from '@services/interfaces';
 
 export interface SecuredBaseRequest extends Request {
-  locals: AuthenticatedUser;
+  locals: { user: AuthenticatedUser };
 }
 
 // requests

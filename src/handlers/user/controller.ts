@@ -1,10 +1,10 @@
 import { logger } from '@logs/index';
 
-import { buildErrorResponse } from '@lib/helpers';
-import { UsersService } from '@services/index';
+import { buildMessageResponse } from '@lib/helpers';
+import { SessionsService, UsersService } from '@services/index';
 
 import { CreateUserResponseDto, LoginUserResponseDto } from '@schemes/interfaces';
-import { CreateUserRequest, CreateUserResponse, LoginUserRequest, LoginUserResponse } from '@schemes/users';
+import { CreateUserRequest, CreateUserResponse, LoginUserRequest, LoginUserResponse, LogoutUserFromAllSessionsRequest, LogoutUserFromAllSessionsResponse } from '@schemes/users';
 
 import { HTTP_STATUSES } from '@lib/constants';
 import { ActiveSessionExists, UserNotFound } from '@lib/exceptions';
@@ -27,7 +27,7 @@ export const createUser = async (req: CreateUserRequest, res: CreateUserResponse
     return res.status(HTTP_STATUSES.CREATED).send(result);
   } catch (error) {
     logger.error(`[handlers/user/createUser] - ${error.message}`);
-    return res.status(HTTP_STATUSES.INTERNAL_SERVER_ERROR).send(buildErrorResponse('An error occured, please contact support!'));
+    return res.status(HTTP_STATUSES.INTERNAL_SERVER_ERROR).send(buildMessageResponse('An error occured, please contact support!'));
   }
 };
 
@@ -55,6 +55,25 @@ export const loginUser = async (req: LoginUserRequest, res: LoginUserResponse) =
     const message = loginIssue ? e.message : 'An error occured, please contact support!';
     const status = loginIssue ? HTTP_STATUSES.UNPROCESSABLE_ENTITY : HTTP_STATUSES.INTERNAL_SERVER_ERROR;
 
-    return res.status(status).send(buildErrorResponse(message));
+    return res.status(status).send(buildMessageResponse(message));
+  }
+};
+
+/**
+ * Handler function used for logging out an user from all sessions.
+ *
+ * @param  {LogoutUserFromAllSessionsRequest} req - Request defined in the schemes
+ * @param  {LogoutUserFromAllSessionsResponse} res - Response defined in the schemes
+ */
+export const logoutUserFromAllSessions = async (req: LogoutUserFromAllSessionsRequest, res: LogoutUserFromAllSessionsResponse) => {
+  try {
+    const user = req.locals?.user;
+
+    await SessionsService.logoutUserFromAllSessions(user.id);
+
+    return res.status(HTTP_STATUSES.OK).send(buildMessageResponse('Successfully logged out from all active sessions!'));
+  } catch (e) {
+    logger.error(`[handlers/user/logoutUserFromAllSessions] - ${e.message}`);
+    return res.status(HTTP_STATUSES.INTERNAL_SERVER_ERROR).send(buildMessageResponse('An error occured, please contact support!'));
   }
 };

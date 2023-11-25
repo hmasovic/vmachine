@@ -1,4 +1,4 @@
-import { getUserViaActiveSession } from '@repositories/sessions';
+import { SessionsRepository } from '@repositories/index';
 
 import { AuthenticatedUser } from './interfaces';
 
@@ -9,14 +9,24 @@ import { AuthenticatedUser } from './interfaces';
  * @returns Promise - Result delegated back as {@link AuthenticatedUser}
  */
 export const getUserBySessionToken = async (token: string): Promise<AuthenticatedUser | null> => {
-  const user = await getUserViaActiveSession(token);
+  const user = await SessionsRepository.getUserViaActiveSession(token);
 
   if (!user) {
     return null;
   }
 
   return {
+    id: user.id,
     username: user.username,
     role: user.role,
   };
+};
+
+/**
+ * Service function used for logging out the user from all active sessions.
+ *
+ * @param  {number} userId - The user id
+ */
+export const logoutUserFromAllSessions = async (userId: number) => {
+  await SessionsRepository.markAllUserSessionsAsInactive(userId);
 };

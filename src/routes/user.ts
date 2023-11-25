@@ -8,8 +8,9 @@ const router = express.Router();
 
 // public endpoints
 router.post('/', validator.createUser, verifyErrors, controller.createUser);
-router.post('/', validator.loginUser, verifyErrors, controller.loginUser);
+router.post('/login', validator.loginUser, verifyErrors, controller.loginUser);
 
 // private endpoints
+router.post('/logout/all', authMiddleware, validator.logoutUserFromAllSessions, verifyErrors, controller.logoutUserFromAllSessions);
 
 export default router;

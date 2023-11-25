@@ -47,11 +47,11 @@ export const loginUser = async (username: string, password: string): Promise<Use
   const userActiveSessions = await SessionsRepository.getAllActiveSessions(user.id);
 
   if (userActiveSessions.length !== 0) {
-    throw new ActiveSessionExists(`User with the username: ${username} not found!`);
+    throw new ActiveSessionExists(`User with username: ${username} already has an active session!`);
   }
 
-  const expireTimestamp = moment().add(TOKEN_EXPIRY_HOURS, 'h').toDate();
   const token = createRandomToken();
+  const expireTimestamp = moment().utc().add(TOKEN_EXPIRY_HOURS, 'h').toDate();
 
   await SessionsRepository.createSession({
     token,
