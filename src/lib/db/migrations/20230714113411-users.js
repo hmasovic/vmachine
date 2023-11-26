@@ -18,9 +18,9 @@ module.exports = {
         allowNull: false,
       },
       deposit: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.FLOAT,
         allowNull: false,
-        defaultValue: 0,
+        defaultValue: 0.0,
       },
       role: {
         type: DataTypes.ENUM,

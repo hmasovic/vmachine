@@ -1,3 +1,7 @@
+import { Transaction } from 'sequelize';
+
+import db from '@lib/db';
+
 import { User } from '@lib/db/interfaces';
 import { Users } from '@lib/db/models';
 

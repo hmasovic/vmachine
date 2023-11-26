@@ -17,3 +17,4 @@ export enum PROMISE_STATUSES {
 }
 
 export const VENDING_MACHINE_COINS = [100, 50, 20, 10, 5];
+export const VENDING_MACHINE_COINS_REPRESENTATION = [5, 10, 20, 50, 100];
