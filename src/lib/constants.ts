@@ -16,5 +16,4 @@ export enum PROMISE_STATUSES {
   REJECTED = 'rejected',
 }
 
-// vending machine coins
 export const VENDING_MACHINE_COINS = [100, 50, 20, 10, 5];

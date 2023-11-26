@@ -8,7 +8,7 @@ import { User } from '@lib/db/interfaces';
 import { Users } from '@lib/db/models';
 import { NewUserInfo, UserLoginMetadata } from './interfaces';
 
-import { ActiveSessionExists, UserNotFound } from '@lib/exceptions';
+import { ActiveSessionExists, EntityNotFound } from '@lib/exceptions';
 
 /**
  * Service function used for creating a user.
@@ -62,7 +62,7 @@ export const loginUser = async (username: string, password: string): Promise<Use
   const user = await UsersRepository.getUserByUsernamePassword(username, hashedPassword);
 
   if (!user) {
-    throw new UserNotFound(`User with the username: ${username} not found!`);
+    throw new EntityNotFound(`User with the username: ${username} not found!`);
   }
 
   const userActiveSessions = await SessionsRepository.getAllActiveSessions(user.id);

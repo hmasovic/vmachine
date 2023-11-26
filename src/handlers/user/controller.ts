@@ -20,7 +20,7 @@ import {
 } from '@schemes/users';
 
 import { HTTP_STATUSES } from '@lib/constants';
-import { ActiveSessionExists, UserNotFound } from '@lib/exceptions';
+import { ActiveSessionExists, EntityNotFound } from '@lib/exceptions';
 
 /**
  * Handler function used for creating a new user.
@@ -123,7 +123,7 @@ export const loginUser = async (req: LoginUserRequest, res: LoginUserResponse) =
   } catch (e) {
     logger.error(`[handlers/user/loginUser] - ${e.message}`);
 
-    const loginIssue = e instanceof UserNotFound || e instanceof ActiveSessionExists;
+    const loginIssue = e instanceof EntityNotFound || e instanceof ActiveSessionExists;
 
     const message = loginIssue ? e.message : 'An error occured, please contact support!';
     const status = loginIssue ? HTTP_STATUSES.UNPROCESSABLE_ENTITY : HTTP_STATUSES.INTERNAL_SERVER_ERROR;

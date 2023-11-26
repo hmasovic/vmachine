@@ -1,3 +1,4 @@
-export * from './UserNotFound';
 export * from './ActiveSessionExists';
-export * from './UserNotUpdated';
+export * from './EntityNotFound';
+export * from './EntityNotUpdated';
+export * from './ProductEditorNotSeller';

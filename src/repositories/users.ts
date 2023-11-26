@@ -1,7 +1,7 @@
 import { User } from '@lib/db/interfaces';
 import { Users } from '@lib/db/models';
 
-import { UserNotUpdated } from '@lib/exceptions';
+import { EntityNotUpdated } from '@lib/exceptions';
 
 /**
  * Repository function used for creating a new user.
@@ -23,7 +23,7 @@ export const updateUser = async (user: Partial<User>): Promise<Users> => {
   const [usersAffected, users] = await Users.update(user, { where: { id: user.id }, returning: true });
 
   if (usersAffected === 0) {
-    throw new UserNotUpdated(`User with the id: ${user.id} was not updated!`);
+    throw new EntityNotUpdated(`User with the id: ${user.id} was not updated!`);
   }
 
   return users?.[0];
@@ -36,16 +36,6 @@ export const updateUser = async (user: Partial<User>): Promise<Users> => {
  */
 export const deleteUser = async (id: number) => {
   await Users.destroy({ where: { id } });
-};
-
-/**
- * Repository function used for getting an user by their id.
- *
- * @param  {number} id - The user id
- * @returns Promise - Result delegated back as {@link Users}
- */
-export const getUserById = async (id: number): Promise<Users> => {
-  return Users.findOne({ where: { id } });
 };
 
 /**
