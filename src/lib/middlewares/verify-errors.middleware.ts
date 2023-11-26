@@ -23,7 +23,7 @@ export const verifyErrors = (req: Request, res: Response, next: NextFunction) =>
 
   errors.array().map((err) => extractedErrors.push({ [err.param]: err.msg }));
 
-  return res.status(HTTP_STATUSES.UNPROCESSABLE_ENTITY).json({
+  return res.status(HTTP_STATUSES.BAD_REQUEST).json({
     errors: extractedErrors,
   });
 };

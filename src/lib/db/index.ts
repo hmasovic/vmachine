@@ -30,7 +30,6 @@ const sequelizeOptions: Options = {
 };
 
 const sequelizeTestOptions: Options = {
-  dialect: 'sqlite',
   storage: ':memory:',
   logging: false,
 };
