@@ -14,7 +14,6 @@ import { VENDING_MACHINE_COINS, VENDING_MACHINE_COINS_REPRESENTATION } from '@li
  * - https://stackoverflow.com/a/48811603
  * - https://bytethisstore.com/articles/pg/knapsack-problem
  *
- *
  * @param  {number} change - The change amount in cents
  * @returns number - The array defining how many coins of each amount should be returned
  */

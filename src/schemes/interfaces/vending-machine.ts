@@ -19,6 +19,7 @@ export interface BuyProductResponseDto {
   };
   changeAmount: number;
   changeInCoins: number[];
+  changeRepresentationInCoins: number[];
 }
 
 export interface ResetDepositedCoinsResponseDto extends DepositCoinResponseDto {}
