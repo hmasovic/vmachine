@@ -6,9 +6,9 @@ import { VENDING_MACHINE_COINS, VENDING_MACHINE_COINS_REPRESENTATION } from '@li
 
 /**
  * Helper function used to get the change in coins for the predefined `VENDING_MACHINE_COINS` coins.
- * Since the coins are a canocical set, the greedy algorithm will provide the optimal solution / fastest time.
+ * Since the coins are a canonical set, the greedy algorithm will provide the optimal solution / fastest time.
  * If the pre-defined coins were to change to a non-canonical set, dynamic programming would be the optimal solution
- * specifically the knapsack problem (the coin change problem is a integer variation of the knapsack problem).
+ * because this would be a knapsack problem (or the coin change problem as an integer variation of the knapsack problem).
  *
  * Reference links:
  * - https://stackoverflow.com/a/48811603
