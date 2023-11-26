@@ -25,3 +25,18 @@ export interface CreateProductResponseDto {
   productName: string;
   amountAvailable: number;
 }
+
+export interface UpdateProductRequestDto {
+  productId: number;
+  data: {
+    cost: number;
+    productName: string;
+    amountAvailable: number;
+  };
+}
+
+export interface UpdateProductResponseDto extends CreateProductResponseDto {}
+
+export interface DeleteProductRequestDto {
+  productId: number;
+}

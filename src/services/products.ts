@@ -43,10 +43,10 @@ export const createProduct = async (user: AuthenticatedUser, product: Product): 
  *
  * @param  {number} userId - The user id
  * @param  {number} productId - The product id
- * @param  {Product} newProductInfo - New product info
+ * @param  {Product} newProductInfo - Partial product info
  * @returns Promise - Result delegated back as {@link Products}
  */
-export const updateProduct = async (userId: number, productId: number, newProductInfo: Product): Promise<Products> => {
+export const updateProduct = async (userId: number, productId: number, newProductInfo: Partial<Product>): Promise<Products> => {
   const product = await ProductsRepository.getProduct(productId);
 
   if (!product) {
@@ -56,7 +56,7 @@ export const updateProduct = async (userId: number, productId: number, newProduc
   const productSellerId = product.sellerId;
 
   if (userId !== productSellerId) {
-    throw new ProductEditorNotSeller(`The user with the id: ${userId}, is not the seller for the product with the id: ${productId}!`);
+    throw new ProductEditorNotSeller(`The user with the id: ${userId} is not the seller for the product with the id: ${productId}!`);
   }
 
   return await ProductsRepository.updateProduct(productId, newProductInfo);
@@ -79,7 +79,7 @@ export const deleteProduct = async (userId: number, productId: number) => {
   const productSellerId = product.sellerId;
 
   if (userId !== productSellerId) {
-    throw new ProductEditorNotSeller(`The user with the id: ${userId}, is not the seller for the product with the id: ${productId}!`);
+    throw new ProductEditorNotSeller(`The user with the id: ${userId} is not the seller for the product with the id: ${productId}!`);
   }
 
   await ProductsRepository.deleteProduct(productId);

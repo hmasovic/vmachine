@@ -104,7 +104,7 @@ export const deleteUser = async (req: DeleteUserRequest, res: DeleteUserResponse
 
     await UsersService.deleteUser(user.id);
 
-    return res.status(HTTP_STATUSES.OK).send();
+    return res.status(HTTP_STATUSES.OK).send(buildMessageResponse('Successfully deleted the user!'));
   } catch (e) {
     logger.error(`[handlers/user/deleteUser] - ${e.message}`);
     return res.status(HTTP_STATUSES.INTERNAL_SERVER_ERROR).send(buildMessageResponse('An error occured, please contact support!'));

@@ -15,16 +15,24 @@ const checkIfCostIsInMultiples = (cost: number): boolean => {
   return cents % 5 === 0;
 };
 
-const DEFAULT_PRODUCT_VALIDATORS = [
+export const getProduct: ValidationChain[] = [query('productId', 'productId is undefined or not a valid string!').isString().toInt()];
+
+export const createProduct: ValidationChain[] = [
   body('cost', 'cost is undefined or not a valid number!').isFloat({ min: PRODUCT_MIN_PRICE }).custom(checkIfCostIsInMultiples).withMessage('Cost should be in multiples of 5').toFloat(),
   body('productName', 'productName is undefined or not a valid string!').isString().isLength({ min: PRODUCT_NAME_MIN_LENGTH }),
   body('amountAvailable', 'amountAvailable is undefined or not a valid number!').isInt({ min: PRODUCT_AMOUNT_MIN_VALUE }).toInt(),
 ];
 
-export const getProduct: ValidationChain[] = [query('productId', 'productId is undefined or not a valid string!').isString().toInt()];
+export const updateProduct: ValidationChain[] = [
+  body('productId', 'productId is undefined or not a valid number!').isInt().toInt(),
+  body('data.cost', 'cost is undefined or not a valid number!')
+    .optional()
+    .isFloat({ min: PRODUCT_MIN_PRICE })
+    .custom(checkIfCostIsInMultiples)
+    .withMessage('Cost should be in multiples of 5')
+    .toFloat(),
+  body('data.productName', 'productName is undefined or not a valid string!').optional().isString().isLength({ min: PRODUCT_NAME_MIN_LENGTH }),
+  body('data.amountAvailable', 'amountAvailable is undefined or not a valid number!').optional().isInt({ min: PRODUCT_AMOUNT_MIN_VALUE }).toInt(),
+];
 
-export const createProduct: ValidationChain[] = [...DEFAULT_PRODUCT_VALIDATORS];
-
-export const updateProduct: ValidationChain[] = [...DEFAULT_PRODUCT_VALIDATORS];
-
-export const deleteProduct: ValidationChain[] = [query('productId', 'productId is undefined or not a valid string!').isString().toInt()];
+export const deleteProduct: ValidationChain[] = [body('productId', 'productId is undefined or not a valid number!').isInt().toInt()];

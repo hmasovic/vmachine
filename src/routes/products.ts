@@ -9,7 +9,7 @@ const router = express.Router();
 // private endpoints
 router.get('/', authMiddleware, validator.getProduct, verifyErrors, controller.getProduct);
 router.post('/', authMiddleware, validator.createProduct, verifyErrors, controller.createProduct);
-// router.put('/', authMiddleware, validator.updateUser, verifyErrors, controller.updateUser);
-// router.delete('/', authMiddleware, validator.deleteUser, verifyErrors, controller.deleteUser);
+router.put('/', authMiddleware, validator.updateProduct, verifyErrors, controller.updateProduct);
+router.delete('/', authMiddleware, validator.deleteProduct, verifyErrors, controller.deleteProduct);
 
 export default router;
