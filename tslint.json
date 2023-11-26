@@ -1,0 +1,45 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["tslint:recommended"],
+  "jsRules": {},
+  "rules": {
+    "trailing-comma": [false],
+    "no-empty-interface": false,
+    "ordered-imports": [
+      true,
+      {
+        "grouped-imports": true,
+        "groups": [
+          {
+            "name": "business logic",
+            "match": "^(@|\\.\\/)(repositor|service|integration|client|handler|job|lib\\/(helper|middleware|factor|util|cach|db)|helper)((?!(interfaces|models|constants)).)*$",
+            "order": 2
+          },
+          {
+            "name": "models, interfaces, schemes",
+            "match": "^.*(interface|model|scheme).*$",
+            "order": 3
+          },
+          {
+            "name": "constants, exceptions",
+            "match": "^.*(constant|exception).*$",
+            "order": 4
+          },
+          {
+            "name": "relative paths",
+            "match": "^[.].*",
+            "order": 5
+          },
+          {
+            "name": "node_modules",
+            "match": ".*",
+            "order": 1
+          }
+        ],
+        "alphabetize": { "order": "asc", "caseInsensitive": true },
+        "newlines-between": "always"
+      }
+    ]
+  },
+  "rulesDirectory": []
+}
