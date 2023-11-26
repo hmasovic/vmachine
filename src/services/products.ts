@@ -31,7 +31,7 @@ export const getProduct = async (productId: number): Promise<Products> => {
  */
 export const createProduct = async (user: AuthenticatedUser, product: Product): Promise<Products> => {
   if (user.role !== UserRole.SELLER) {
-    throw new ProductEditorNotSeller(`The user with the id: ${user.id}, is not a seller!`);
+    throw new ProductEditorNotSeller(`The user with the id: ${user.id} is not a seller!`);
   }
 
   return await ProductsRepository.createProduct(product);

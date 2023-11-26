@@ -1,4 +1,5 @@
 import { logger } from '@logs/index';
+import { UniqueConstraintError } from 'sequelize';
 
 import { buildMessageResponse } from '@lib/helpers';
 import { SessionsService, UsersService } from '@services/index';
@@ -40,7 +41,13 @@ export const createUser = async (req: CreateUserRequest, res: CreateUserResponse
     return res.status(HTTP_STATUSES.CREATED).send(result);
   } catch (error) {
     logger.error(`[handlers/user/createUser] - ${error.message}`);
-    return res.status(HTTP_STATUSES.INTERNAL_SERVER_ERROR).send(buildMessageResponse('An error occured, please contact support!'));
+
+    const uniqueConstraintError = error instanceof UniqueConstraintError;
+
+    const message = uniqueConstraintError ? 'Username already exists, please choose a new one.' : 'An error occured, please contact support!';
+    const status = uniqueConstraintError ? HTTP_STATUSES.UNPROCESSABLE_ENTITY : HTTP_STATUSES.INTERNAL_SERVER_ERROR;
+
+    return res.status(status).send(buildMessageResponse(message));
   }
 };
 

@@ -8,7 +8,7 @@ import { CreateProductResponseDto } from '@schemes/interfaces';
 import { CreateProductRequest, CreateProductResponse, GetProductRequest, GetProductResponse } from '@schemes/products';
 
 import { HTTP_STATUSES } from '@lib/constants';
-import { EntityNotFound } from '@lib/exceptions';
+import { EntityNotFound, ProductEditorNotSeller } from '@lib/exceptions';
 
 /**
  * Handler function used for getting a product.
@@ -36,7 +36,7 @@ export const getProduct = async (req: GetProductRequest, res: GetProductResponse
     const expectedError = e instanceof EntityNotFound;
 
     const message = expectedError ? e.message : 'An error occured, please contact support!';
-    const status = expectedError ? HTTP_STATUSES.UNPROCESSABLE_ENTITY : HTTP_STATUSES.INTERNAL_SERVER_ERROR;
+    const status = expectedError ? HTTP_STATUSES.NOT_FOUND : HTTP_STATUSES.INTERNAL_SERVER_ERROR;
 
     return res.status(status).send(buildMessageResponse(message));
   }
@@ -69,8 +69,14 @@ export const createProduct = async (req: CreateProductRequest, res: CreateProduc
     };
 
     return res.status(HTTP_STATUSES.OK).send(result);
-  } catch (error) {
-    logger.error(`[handlers/product/createProduct] - ${error.message}`);
-    return res.status(HTTP_STATUSES.INTERNAL_SERVER_ERROR).send(buildMessageResponse('An error occured, please contact support!'));
+  } catch (e) {
+    logger.error(`[handlers/product/createProduct] - ${e.message}`);
+
+    const expectedError = e instanceof ProductEditorNotSeller;
+
+    const message = expectedError ? e.message : 'An error occured, please contact support!';
+    const status = expectedError ? HTTP_STATUSES.UNPROCESSABLE_ENTITY : HTTP_STATUSES.INTERNAL_SERVER_ERROR;
+
+    return res.status(status).send(buildMessageResponse(message));
   }
 };
