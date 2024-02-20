@@ -57,7 +57,6 @@ DB_NAME=postgres
 - Finally, to install all of the dependencies, run the following:
 
 ```bash
-npm login # dashlane for secrets
 npm ci  # or npm install to update the dependencies as well
 ```
 
